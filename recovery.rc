@@ -40,13 +40,14 @@ on early-fs
     chmod 750 /sbin/fat.format
 
 # change permission on recovery
-    chown root root /recovery
-    chmod 0770 /recovery        
+    chown root root /sbin/recovery
+    chmod 0770 /sbin/recovery        
 
 on fs
     mount tmpfs tmpfs /tmp
     # mount rfs /dev/block/stl9 /system check=no
     # mount rfs /dev/block/mmcblk0p13 /system check=no
+    mount ext4 /dev/block/mmcblk0p7 /cache nosuid nodev noatime wait
     mount ext4 /dev/block/mmcblk0p8 /system wait
 
 # SEC_DMCRYPT for MC_CRYPT_ROOT before apply_disk_policy or apply_sec_devenc_init
@@ -82,11 +83,11 @@ on boot
 service ueventd /sbin/ueventd
     critical
 
-service console /system/bin/sh
+service console /sbin/sh
     console
 
-#service recovery /sbin/recovery
-service recovery /recovery
+service recovery /sbin/recovery
+#service recovery /recovery
 
 service adbd /sbin/adbd recovery
 
